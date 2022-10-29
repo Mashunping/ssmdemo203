@@ -1,0 +1,77 @@
+#应用服务 WEB 访问端口
+server:
+  port: 8081
+  # tomcat配置
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 1000
+      min-spare: 30
+
+  servlet:
+    context-path: /admin
+
+#spring配置
+spring:
+  application:
+    name: ssmdemo203
+    #数据源
+  datasource:
+    #数据驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #数据名称
+    name: defaultDataSource
+    #数据库连接地址
+    url: jdbc:mysql://localhost:3309/ssmDemo203?serverTimezone=UTC
+    #数据库用户名和密码
+    username: root
+    password: password
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      pool-name: test
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-init-sql: SET NAMES utf8mb4
+  mvc:
+    view:
+      suffix: .html
+      prefix: templates/
+    static-path-pattern: /static/**
+  thymeleaf:
+    prefix: class:/templates/
+
+# jwt配置
+jwt:
+  header: X-Token
+  base64-secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  token-validity-in-seconds: 14400000
+
+
+
+
+##下面这些内容是为了让MyBatis映射
+##指定Mybatis的Mapper文件
+#mybatis:
+#  mapper-locations: classpath:mappers/*xml
+#  ##指定Mybatis的实体目录
+#  type-aliases-package: com.example.ssmdemo203.mybatis.entity
+
+  #mybaits配置路径
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.example.ssmdemo203.mybatis.**.pojo.entity
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
